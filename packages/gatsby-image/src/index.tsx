@@ -37,6 +37,8 @@ export interface IFluidObject {
   srcWebp?: IImageObject["srcWebp"]
   srcSetWebp?: IImageObject["srcSetWebp"]
   media?: IImageObject["media"]
+  maxWidth?: number
+  maxHeight?: number
 }
 
 interface INoscriptImgProps {
@@ -209,8 +211,8 @@ const matchesMedia = ({ media }: { media?: string }): boolean =>
 
 /**
  * Returns the current src - Preferably with art-direction support.
- * @param currentData  {{media?: string}[]}   The fluid or fixed image array.
- * @return {{src: string, media?: string}}
+ * @param currentData  {{media?: string}[], maxWidth?: Number, maxHeight?: Number}   The fluid or fixed image array.
+ * @return {{src: string, media?: string, maxWidth?: Number, maxHeight?: Number}}
  */
 const getCurrentSrcData = (
   currentData: ImageVariants | ImageVariants[]
@@ -674,6 +676,8 @@ export class Image extends React.Component<
           style={{
             position: `relative`,
             overflow: `hidden`,
+            maxWidth: image.maxWidth ? `${image.maxWidth}px` : null,
+            maxHeight: image.maxHeight ? `${image.maxHeight}px` : null,
             ...style,
           }}
           ref={this.handleRef}
